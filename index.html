@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Letter 💌</title>
+
+<style>
+
+/* =========================
+   CÀI ĐẶT CHUNG
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    background: #050006;
+    color: white;
+}
+
+#scene {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #27000d 0%,
+            #100006 45%,
+            #020003 100%
+        );
+}
+
+/* =========================
+   ÁNH SÁNG NỀN
+========================= */
+
+.glow {
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    left: 50%;
+    top: 48%;
+
+    transform: translate(-50%, -50%);
+
+    background: radial-gradient(
+        circle,
+        rgba(255, 0, 50, 0.16),
+        transparent 70%
+    );
+
+    filter: blur(20px);
+
+    animation: pulse 3s infinite ease-in-out;
+}
+
+@keyframes pulse {
+
+    0%, 100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+}
+
+/* =========================
+   HOA HỒNG
+========================= */
+
+.rose-wrap {
+    position: absolute;
+
+    left: 50%;
+    top: 45%;
+
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+
+    text-align: center;
+
+    z-index: 5;
+
+    transition:
+        opacity 1s,
+        transform 1s;
+}
+
+.rose {
+    font-size: clamp(100px, 18vw, 190px);
+
+    cursor: pointer;
+    user-select: none;
+
+    filter:
+        drop-shadow(0 0 20px #ff1648)
+        drop-shadow(0 0 45px rgba(255, 0, 50, .5));
+
+    animation: rosePulse 2.5s infinite ease-in-out;
+}
+
+@keyframes rosePulse {
+
+    0%, 100% {
+        transform: scale(1) rotate(-3deg);
+    }
+
+    50% {
+        transform: scale(1.07) rotate(3deg);
+    }
+
+}
+
+.intro-caption {
+    color: #ffb5c6;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+    font-style: italic;
+
+    margin-top: 10px;
+}
+
+/* NÚT BẮT ĐẦU */
+
+#startBtn {
+    margin-top: 25px;
+
+    padding: 13px 28px;
+
+    border: 1px solid rgba(255, 160, 185, .7);
+
+    border-radius: 30px;
+
+    background: rgba(120, 0, 30, .3);
+
+    color: #ffe0e8;
+
+    cursor: pointer;
+
+    letter-spacing: 1px;
+
+    transition: .3s;
+}
+
+#startBtn:hover {
+    background: #8b092d;
+
+    box-shadow: 0 0 25px #ff315f;
+
+    transform: scale(1.05);
+}
+
+/* =========================
+   CÁNH HOA RƠI
+========================= */
+
+.petal {
+    position: absolute;
+
+    width: 15px;
+    height: 22px;
+
+    border-radius: 90% 5% 90% 5%;
+
+    background: linear-gradient(
+        135deg,
+        #ff829c,
+        #e20b45 60%,
+        #670019
+    );
+
+    box-shadow: 0 0 10px rgba(255, 35, 80, .5);
+
+    pointer-events: none;
+
+    animation: petalFall linear forwards;
+
+    z-index: 2;
+}
+
+@keyframes petalFall {
+
+    0% {
+        transform:
+            translate3d(0, -10vh, 0)
+            rotate(0deg);
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translate3d(var(--drift), 110vh, 0)
+            rotate(var(--spin));
+
+        opacity: 0;
+    }
+
+}
+
+/* =========================
+   HẠT SÁNG
+========================= */
+
+.spark {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: #ffc1d5;
+
+    box-shadow: 0 0 12px 3px #ff3c74;
+
+    animation: sparkle 3s infinite ease-in-out;
+
+    pointer-events: none;
+}
+
+@keyframes sparkle {
+
+    0%, 100% {
+        opacity: .2;
+        transform: scale(.5);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.6);
+    }
+
+}
+
+/* =========================
+   PHONG THƯ
+========================= */
+
+.envelope-area {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+
+    transform: scale(.6);
+
+    pointer-events: none;
+
+    transition:
+        opacity .9s,
+        transform .9s;
+
+    z-index: 6;
+}
+
+.envelope-area.show {
+    opacity: 1;
+
+    transform: scale(1);
+
+    pointer-events: auto;
+}
+
+.envelope {
+    position: relative;
+
+    width: 200px;
+    height: 130px;
+
+    background: #f8edf2;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    box-shadow: 0 0 35px rgba(255, 45, 105, .3);
+
+    transition: transform .3s;
+}
+
+.envelope:hover {
+    transform: scale(1.06);
+}
+
+/* NẮP PHONG THƯ */
+
+.envelope::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        50% 72%
+    );
+
+    background: #ead0da;
+
+    z-index: 3;
+}
+
+/* ĐÁY PHONG THƯ */
+
+.envelope::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    clip-path: polygon(
+        0 100%,
+        50% 48%,
+        100% 100%
+    );
+
+    background: #dfbfcc;
+
+    z-index: 2;
+}
+
+/* TRÁI TIM */
+
+.seal {
+    position: absolute;
+
+    left: 50%;
+    top: 55%;
+
+    transform: translate(-50%, -50%);
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+
+    background: #d20b4a;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 0 15px #ff4076;
+
+    z-index: 5;
+}
+
+/* DÒNG CHỮ */
+
+.envelope-label {
+    position: absolute;
+
+    left: 50%;
+    top: calc(100% + 22px);
+
+    transform: translateX(-50%);
+
+    white-space: nowrap;
+
+    color: #ffb4c8;
+
+    font-size: 14px;
+
+    font-style: italic;
+
+    letter-spacing: 1px;
+}
+
+/* =========================
+   LỚP HIỆN THƯ
+========================= */
+
+.letter-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(4, 2, 12, .86);
+
+    backdrop-filter: blur(6px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity .6s;
+
+    z-index: 10;
+}
+
+.letter-overlay.open {
+    opacity: 1;
+
+    pointer-events: auto;
+}
+
+/* =========================
+   THIỆP
+   ẢNH TRÁI - THƯ PHẢI
+========================= */
+
+.letter-card {
+    position: relative;
+
+    width: min(900px, 94vw);
+
+    height: min(580px, 88vh);
+
+    display: grid;
+
+    grid-template-columns: 45% 55%;
+
+    grid-template-rows: 100%;
+
+    background: #fffdfd;
+
+    color: #4d2432;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 15px 70px rgba(255, 28, 88, .25);
+
+    transform: translateY(30px) scale(.92);
+
+    transition:
+        transform .8s cubic-bezier(.2, .8, .2, 1);
+}
+
+.letter-overlay.open .letter-card {
+    transform: translateY(0) scale(1);
+}
+
+/* =========================
+   ẢNH BÊN TRÁI
+========================= */
+
+.photo-side {
+    grid-column: 1;
+    grid-row: 1;
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    background: #f3dce5;
+}
+
+.photo-side img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    border: none;
+}
+
+/* ẢNH KHÔNG LOAD */
+
+.photo-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 75px;
+
+    background: linear-gradient(
+        135deg,
+        #f4d8e2,
+        #e8b8ca
+    );
+}
+
+/* =========================
+   NỘI DUNG THƯ BÊN PHẢI
+========================= */
+
+.letter-content {
+    grid-column: 2;
+    grid-row: 1;
+
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+
+    padding: 50px 38px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+/* TIÊU ĐỀ */
+
+.letter-content h1 {
+    width: 100%;
+
+    font-size: clamp(25px, 3vw, 36px);
+
+    font-weight: normal;
+
+    font-style: italic;
+
+    color: #c4144d;
+
+    margin: 0 0 25px;
+
+    line-height: 1.4;
+}
+
+/* NỘI DUNG */
+
+.letter-content p {
+    width: 100%;
+
+    font-size: 16px;
+
+    line-height: 1.9;
+
+    margin: 0 0 18px;
+
+    white-space: pre-line;
+
+    overflow-wrap: break-word;
+
+    word-break: normal;
+}
+
+/* CHỮ KÝ */
+
+.signature {
+    width: 100%;
+
+    margin-top: 15px;
+
+    color: #c4144d;
+
+    font-style: italic;
+
+    font-size: 21px;
+}
+
+/* =========================
+   NÚT ĐÓNG
+========================= */
+
+.close {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    z-index: 100;
+
+    width: 35px;
+    height: 35px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #d20b4a;
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================
+   TRÁI TIM BAY
+========================= */
+
+.heart {
+    position: absolute;
+
+    color: #ff3973;
+
+    text-shadow: 0 0 12px #ff4b8b;
+
+    pointer-events: none;
+
+    animation: heartFloat 5s linear forwards;
+
+    z-index: 8;
+}
+
+@keyframes heartFloat {
+
+    0% {
+        transform: translateY(10vh) scale(.3);
+        opacity: 0;
+    }
+
+    15% {
+        opacity: .9;
+    }
+
+    100% {
+        transform: translateY(-110vh) scale(1.3);
+        opacity: 0;
+    }
+
+}
+
+/* =========================
+   NÚT NHẠC
+========================= */
+
+.music-btn {
+    position: fixed;
+
+    right: 20px;
+    bottom: 20px;
+
+    z-index: 30;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    border: 1px solid #ff8da9;
+
+    background: rgba(100, 0, 30, .55);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+    box-shadow: 0 0 15px rgba(255, 40, 100, .25);
+}
+
+/* NỐT NHẠC */
+
+.music-note {
+    position: absolute;
+
+    color: #ffd0dd;
+
+    animation: noteFloat 2s ease-out forwards;
+
+    pointer-events: none;
+
+    z-index: 20;
+}
+
+@keyframes noteFloat {
+
+    to {
+        transform: translate(20px, -70px) rotate(30deg);
+        opacity: 0;
+    }
+
+}
+
+/* =========================
+   ĐIỆN THOẠI
+========================= */
+
+@media (max-width: 650px) {
+
+    .letter-overlay {
+        padding: 10px;
+    }
+
+    .letter-card {
+        width: 95vw;
+
+        height: 90vh;
+
+        max-height: 90vh;
+
+        min-height: 0;
+
+        display: grid;
+
+        grid-template-columns: 100%;
+
+        grid-template-rows: 34% 66%;
+
+        overflow: hidden;
+    }
+
+    /* ẢNH PHÍA TRÊN */
+
+    .photo-side {
+        grid-column: 1;
+        grid-row: 1;
+
+        width: 100%;
+        height: 100%;
+    }
+
+    .photo-side img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+    }
+
+    /* THƯ PHÍA DƯỚI */
+
+    .letter-content {
+        grid-column: 1;
+        grid-row: 2;
+
+        width: 100%;
+        height: 100%;
+
+        padding: 25px 22px;
+
+        overflow-y: auto;
+    }
+
+    .letter-content h1 {
+        font-size: 27px;
+
+        margin-bottom: 18px;
+    }
+
+    .letter-content p {
+        font-size: 15px;
+
+        line-height: 1.75;
+
+        margin-bottom: 15px;
+    }
+
+    .signature {
+        font-size: 19px;
+    }
+
+    .close {
+        top: 10px;
+        right: 10px;
+    }
+
+    .envelope {
+        width: 170px;
+        height: 115px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="scene">
+
+    <div class="glow"></div>
+
+    <!-- HOA HỒNG MỞ ĐẦU -->
+
+    <div class="rose-wrap" id="roseWrap">
+
+        <div class="rose" id="rose">🌹</div>
+
+        <div class="intro-caption">
+           Một điều nhỏ bé dành riêng cho bạn
+        </div>
+
+        <button id="startBtn">
+           Chạm để mở thư ♥
+        </button>
+
+    </div>
+
+    <!-- PHONG THƯ -->
+
+    <div class="envelope-area" id="envelopeArea">
+
+        <div class="envelope" id="envelope">
+
+            <div class="seal">♥</div>
+
+            <div class="envelope-label">
+                Nhấn để mở thư
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- THƯ -->
+
+    <div class="letter-overlay" id="letterOverlay">
+
+        <div class="letter-card">
+
+            <!-- NÚT ĐÓNG -->
+
+            <button class="close" id="closeLetter">
+                ×
+            </button>
+
+            <!-- ẢNH BÊN TRÁI -->
+
+            <div class="photo-side">
+
+                <img
+                    src="anh.jpg"
+                    id="letterPhoto"
+                    alt="Ảnh kỷ niệm"
+                    onerror="this.style.display='none';document.getElementById('photoFallback').style.display='flex'"
+                >
+
+                <div
+                    class="photo-placeholder"
+                    id="photoFallback"
+                >
+                    🌷
+                </div>
+
+            </div>
+
+            <!-- NỘI DUNG BÊN PHẢI -->
+
+            <div class="letter-content">
+
+                <h1>Gửi anh 💌</h1>
+
+                <p>
+Không biết bắt đầu từ đâu, nhưng mình muốn dành cho bạn một vài lời iu thương.
+                </p>
+
+                <p>
+Cảm ơn bạn vì đã xuất hiện, vì những khoảnh khắc nhỏ bé khiến ngày bình thường trở nên đáng nhớ hơn.
+
+Mong rằng dù hôm nay hay những ngày sau bạn vẫn luôn tìm thấy niềm vui, sự bình yên và thật nhiều điều dịu dàng.
+                </p>
+
+                <p>
+Chúc bạn luôn mỉm cười và được yêu thương thật nhiều.
+
+Anh đã giỏi lắm rùi, đừng để bản thân vất vả quá nhé.
+                </p>
+
+                <div class="signature">
+                    mít ♥
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- NÚT NHẠC -->
+
+<button class="music-btn" id="musicToggle" title="Bật / Tắt nhạc">
+    ♫
+</button>
+
+<!-- NHẠC LOVE LETTER -->
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="tomomi_kato-love-letter-312044.mp3" type="audio/mpeg">
+</audio>
+
+
+<script>
+
+/* =========================
+   LẤY PHẦN TỬ
+========================= */
+
+const scene = document.getElementById("scene");
+
+const roseWrap = document.getElementById("roseWrap");
+
+const rose = document.getElementById("rose");
+
+const startBtn = document.getElementById("startBtn");
+
+const envelopeArea = document.getElementById("envelopeArea");
+
+const envelope = document.getElementById("envelope");
+
+const overlay = document.getElementById("letterOverlay");
+
+const closeBtn = document.getElementById("closeLetter");
+
+const music = document.getElementById("bgMusic");
+
+const musicBtn = document.getElementById("musicToggle");
+
+let started = false;
+
+let heartInterval = null;
+
+
+/* =========================
+   TẠO CÁNH HOA
+========================= */
+
+function makePetal() {
+
+    const p = document.createElement("i");
+
+    p.className = "petal";
+
+    p.style.left = Math.random() * 100 + "vw";
+
+    p.style.top = (-5 - Math.random() * 20) + "vh";
+
+    p.style.setProperty(
+        "--drift",
+        (Math.random() * 260 - 130) + "px"
+    );
+
+    p.style.setProperty(
+        "--spin",
+        (Math.random() * 1200 - 600) + "deg"
+    );
+
+    p.style.animationDuration =
+        (5 + Math.random() * 7) + "s";
+
+    p.style.width =
+        (10 + Math.random() * 12) + "px";
+
+    p.style.height =
+        (15 + Math.random() * 15) + "px";
+
+    scene.appendChild(p);
+
+    setTimeout(() => {
+        p.remove();
+    }, 13000);
+
+}
+
+
+/* =========================
+   HẠT SÁNG
+========================= */
+
+function makeSpark() {
+
+    const s = document.createElement("i");
+
+    s.className = "spark";
+
+    s.style.left = Math.random() * 100 + "vw";
+
+    s.style.top = Math.random() * 100 + "vh";
+
+    s.style.animationDelay = Math.random() * 3 + "s";
+
+    scene.appendChild(s);
+
+}
+
+for (let i = 0; i < 45; i++) {
+    makeSpark();
+}
+
+
+/* =========================
+   CÁNH HOA RƠI LIÊN TỤC
+========================= */
+
+setInterval(makePetal, 300);
+
+for (let i = 0; i < 25; i++) {
+
+    setTimeout(makePetal, i * 120);
+
+}
+
+
+/* =========================
+   TRÁI TIM BAY
+========================= */
+
+function makeHeart() {
+
+    const h = document.createElement("span");
+
+    h.className = "heart";
+
+    h.textContent = ["♥", "♡", "❤"][
+        Math.floor(Math.random() * 3)
+    ];
+
+    h.style.left = Math.random() * 100 + "vw";
+
+    h.style.bottom = "-5vh";
+
+    h.style.fontSize =
+        (12 + Math.random() * 25) + "px";
+
+    h.style.animationDuration =
+        (4 + Math.random() * 4) + "s";
+
+    scene.appendChild(h);
+
+    setTimeout(() => {
+        h.remove();
+    }, 8500);
+
+}
+
+
+/* =========================
+   NỐT NHẠC BAY
+========================= */
+
+function makeMusicNote() {
+
+    const note = document.createElement("span");
+
+    note.className = "music-note";
+
+    note.textContent = ["♫", "♪", "♬"][
+        Math.floor(Math.random() * 3)
+    ];
+
+    const rect = musicBtn.getBoundingClientRect();
+
+    note.style.left = rect.left + "px";
+
+    note.style.top = rect.top + "px";
+
+    scene.appendChild(note);
+
+    setTimeout(() => {
+        note.remove();
+    }, 2000);
+
+}
+
+
+/* =========================
+   BẮT ĐẦU TRẢI NGHIỆM
+========================= */
+
+async function startExperience() {
+
+    if (started) return;
+
+    started = true;
+
+    /* ẨN HOA */
+
+    roseWrap.style.opacity = "0";
+
+    roseWrap.style.transform =
+        "translate(-50%, -50%) scale(.2)";
+
+    /* PHÁT NHẠC */
+
+    try {
+
+        await music.play();
+
+        musicBtn.textContent = "♫";
+
+    } catch (error) {
+
+        console.log(
+            "Nhạc chưa phát được. Kiểm tra file MP3."
+        );
+
+    }
+
+    /* TUNG CÁNH HOA */
+
+    for (let i = 0; i < 45; i++) {
+
+        setTimeout(makePetal, i * 35);
+
+    }
+
+    /* HIỆN PHONG THƯ */
+
+    setTimeout(() => {
+
+        roseWrap.style.display = "none";
+
+        envelopeArea.classList.add("show");
+
+    }, 700);
+
+}
+
+
+/* NHẤN HOA HOẶC NÚT */
+
+startBtn.addEventListener("click", startExperience);
+
+rose.addEventListener("click", startExperience);
+
+
+/* =========================
+   MỞ PHONG THƯ
+========================= */
+
+envelope.addEventListener("click", () => {
+
+    envelopeArea.classList.remove("show");
+
+    setTimeout(() => {
+
+        overlay.classList.add("open");
+
+    }, 300);
+
+    /* TRÁI TIM */
+
+    if (heartInterval) {
+        clearInterval(heartInterval);
+    }
+
+    heartInterval = setInterval(makeHeart, 450);
+
+    for (let i = 0; i < 30; i++) {
+
+        setTimeout(makeHeart, i * 90);
+
+    }
+
+});
+
+
+/* =========================
+   ĐÓNG THƯ
+========================= */
+
+function closeLetter() {
+
+    overlay.classList.remove("open");
+
+    if (heartInterval) {
+
+        clearInterval(heartInterval);
+
+        heartInterval = null;
+
+    }
+
+    setTimeout(() => {
+
+        envelopeArea.classList.add("show");
+
+    }, 500);
+
+}
+
+closeBtn.addEventListener("click", closeLetter);
+
+
+/* CLICK BÊN NGOÀI THƯ ĐỂ ĐÓNG */
+
+overlay.addEventListener("click", (e) => {
+
+    if (e.target === overlay) {
+
+        closeLetter();
+
+    }
+
+});
+
+
+/* =========================
+   BẬT / TẮT NHẠC
+========================= */
+
+musicBtn.addEventListener("click", async () => {
+
+    if (music.paused) {
+
+        try {
+
+            await music.play();
+
+            musicBtn.textContent = "♫";
+
+        } catch (error) {
+
+            alert(
+                "Không tìm thấy nhạc!\n\n" +
+                "Hãy đặt file MP3 cùng thư mục với HTML."
+            );
+
+        }
+
+    } else {
+
+        music.pause();
+
+        musicBtn.textContent = "♪";
+
+    }
+
+});
+
+
+/* =========================
+   NỐT NHẠC BAY LIÊN TỤC
+========================= */
+
+setInterval(() => {
+
+    if (!music.paused) {
+
+        makeMusicNote();
+
+    }
+
+}, 1500);
+
+</script>
+
+</body>
+</html>
